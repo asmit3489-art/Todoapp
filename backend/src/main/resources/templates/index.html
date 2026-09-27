@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My To-Do List</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <h1>My To-Do List</h1>
+
+    <form action="/tasks" method="post">
+        <input type="text" name="title" placeholder="Enter a task">
+        <button type="submit">Add Task</button>
+    </form>
+
+    <h2>My Tasks</h2>
+
+ <ul>
+    <li th:each="task : ${tasks}">
+
+        <span th:text="${task.title}"></span>
+
+        <!-- Edit button -->
+        <form th:action="@{/tasks/{id}/edit(id=${task.id})}"
+              method="post"
+              style="display:inline;">
+
+            <input type="text"
+                   name="title"
+                   th:value="${task.title}">
+
+            <button type="submit">✏️ Edit</button>
+
+        </form>
+
+        <!-- Complete button -->
+        <form th:if="${!task.completed}"
+              th:action="@{/tasks/{id}/complete(id=${task.id})}"
+              method="post"
+              style="display:inline;">
+
+            <button type="submit">Complete</button>
+
+        </form>
+
+        <!-- Completed text -->
+        <span th:if="${task.completed}">
+            ✅ Completed
+        </span>
+
+        <!-- Delete button -->
+        <form th:action="@{/tasks/{id}/delete(id=${task.id})}"
+              method="post"
+              style="display:inline;">
+
+            <button type="submit">🗑️ Delete</button>
+
+        </form>
+
+    </li>
+</ul>
+
+</body>
+</html>
